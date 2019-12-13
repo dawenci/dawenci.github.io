@@ -1,0 +1,59 @@
+---
+layout: default
+---
+
+<div class="layout">
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <div class="post-date">
+      <i class="iconfont icon-time"></i>
+      <time>
+        {{ page.date | date: "%b %-d, %Y" }}
+      </time>
+    </div>
+    
+
+    <h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
+
+    <section class="post-content" itemprop="articleBody">
+      {{ content }}
+    </section>
+
+    <footer>
+      <div class="post-tags">
+        {% for tag in page.tags %}
+        <a class="tag" href="/tags/#{{ tag | slugify }}">{{ tag }}</a>
+        {% endfor %}
+      </div>
+
+      <div class="post-nav">
+        {% if page.previous != nil %}
+        <a href="{{ page.previous.url }}" class="prev">
+          <i class="iconfont icon-arrowleft"></i>
+          <span>上一篇</span>
+        </a>
+        {% endif %}
+
+        {% if page.next != nil %}
+        <a href="{{ page.next.url }}" class="next">
+          <span>下一篇</span>
+          <i class="iconfont icon-arrowright"></i>
+        </a>
+        {% endif %}
+      </div>
+    </footer>
+
+
+
+    <aside class="post-related">
+      <h2>相关博文</h2>
+      <ul>
+        {% for post in site.related_posts %}
+        <li>
+          <a href="{{ post.url }}">{{ post.title }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </aside>
+
+  </article>
+</div>

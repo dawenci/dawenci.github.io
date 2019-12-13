@@ -1,0 +1,63 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+title: Dawenci
+email: dawenci@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+  Dawenci的博客.
+
+url: "http://dawenci.me" # the base hostname & protocol for your site
+baseurl: "" # the subpath of your site, e.g. /blog
+
+# Outputting
+permalink: /posts/:year:month:day-:title # title for each post
+paginate_path: "page:num" # 分页设置
+paginate: 5
+
+
+# 社交媒体设置
+twitter_username: dawenci
+github_username:  dawenci
+
+
+# Plugins
+whitelist: []
+plugins: 
+  - jekyll-paginate
+
+
+# Conversion
+markdown: kramdown # markdown 引擎
+highlighter: rouge # 语法高亮
+lsi:         false
+excerpt_separator:  "\n\n\n" # 摘要设置
+incremental: false
+
+
+# More › http://kramdown.gettalong.org/quickref.html
+# Options › http://kramdown.gettalong.org/options.html
+# markdown 引擎配置
+kramdown:
+
+  # `input: GFM` allows me to use the same syntax for markdown files I’d use on GitHub
+  # which is especially useful for code blocks. Like this:
+  # `​`` html
+  # <a href="#">Hello world</a>
+  # `​``
+  input:          GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+      start_line: 1
+
+  auto_ids:       true
+  auto_id_prefix: 'id-'

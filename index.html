@@ -1,0 +1,53 @@
+---
+layout: posts
+---
+
+<div class="post-list">
+  <!-- site.posts 全站的post -->
+  <!-- paginator.posts 当前分页里的post -->
+
+  {% for post in paginator.posts %}
+    <article class="post">
+      <div class="post-date">
+        <i class="iconfont icon-time"></i>
+        <time>{{ post.date | date: "%b %-d, %Y" }}</time>
+      </div>
+
+      <h1 class="post-title"><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></h1>
+
+      <section class="post-content">
+        {{ post.excerpt }}
+
+        <a class="readmore" href="{{ post.url | prepend: site.baseurl }}">READ MORE...</a>
+
+      </section>
+      
+      <footer>
+        <div class="post-tags">
+          {% for tag in post.tags %}
+          <a class="tag" href="/tags/#{{ tag | slugify }}">{{ tag }}</a>
+          {% endfor %}
+        </div>  
+      </footer>
+    </article>
+  {% endfor %}
+</div>
+
+<!-- 分页 -->
+{% if paginator.total_pages > 1 %}
+<div class="pagination">
+  {% if paginator.previous_page %}
+    <a href="{{ paginator.previous_page_path }}" class="previous">Previous</a>
+  {% else %}
+    <span class="previous">Previous</span>
+  {% endif %}
+
+  <span class="page_number ">{{ paginator.page }} / {{ paginator.total_pages }}</span>
+
+  {% if paginator.next_page %}
+    <a href="{{ paginator.next_page_path }}" class="next">Next</a>
+  {% else %}
+    <span class="next ">Next</span>
+  {% endif %}
+</div>
+{% endif %}

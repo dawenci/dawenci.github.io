@@ -1,0 +1,63 @@
+---
+layout: default
+title: Categories
+permalink: /categories
+---
+
+
+{% assign rawcats = "" %}
+{% for post in site.posts %}
+  {% assign tcats = post.categories | join:'|' | append:'|' %}
+  {% assign rawcats = rawcats | append:tcats %}
+{% endfor %}
+{% assign rawcats = rawcats | split:'|' | sort %}
+
+{% assign cats = "" %}
+{% for cat in rawcats %}
+  {% if cat != "" %}
+    {% if cats == "" %}
+      {% assign cats = cat | split:'|' %}
+    {% endif %}
+    {% unless cats contains cat %}
+      {% assign cats = cats | join:'|' | append:'|' | append:cat | split:'|' %}
+    {% endunless %}
+  {% endif %}
+{% endfor %}
+
+
+<nav class="tag-nav">
+  <div class="layout">
+    <div class="layout-inner">
+      <h1 class="page-heading">Categories</h1>
+      <div class="tags-nav-list">
+      {% for cat in cats %}
+        <a class="tag" href="#{{ cat | slugify }}"> {{ cat }} </a>
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+</nav>
+
+  
+<div class="tag-post-list">
+  <div class="layout">
+    <div class="layout-inner">
+    {% for cat in cats %}
+      <h2 id="{{ cat | slugify }}">
+        <i class="iconfont icon-fenlei"></i>
+        <span>{{ cat }}</span>
+      </h2>
+      <ul>
+      {% for post in site.posts %}
+        {% if post.categories contains cat %}
+        <li>
+            <a class="title" href="{{ post.url }}">{{ post.title }}</a>
+            <time class="date">{{ post.date | date_to_string }}</time>
+        </li>
+        {% endif %}
+      {% endfor %}
+      </ul>
+    {% endfor %}
+    </div>
+  </div>
+</div>
