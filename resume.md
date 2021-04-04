@@ -5,7 +5,9 @@ permalink: /resume
 ---
 
 
-## 我工作上使用这些：
+## 我的技术栈
+
+### 我主要但不仅限于使用这些：
 
 * JavaScript ( ES3 - ES6 ), TypeScript
 * HTML ( xHTML, HTML5 )
@@ -16,15 +18,20 @@ permalink: /resume
 * Git, SVN
 * Photoshop, Illustrator
 
-## 我了解过这些：
+
+### 我了解过这些：
 
 * React & Redux, AngularJS,
 * Swift ( iOS / macOS )
 * Flutter
 
-## 工作中这些让我更愉悦：
+
+### 工作中这些让我更愉悦：
 
 Macbook pro, TypeScript, Vue, SCSS
+
+
+---
 
 
 ## 我的开源项目：
@@ -37,6 +44,9 @@ Macbook pro, TypeScript, Vue, SCSS
 
 * [乐理](https://github.com/dawenci/d-music)
   一个乐理相关的基础函数库。
+
+
+---
 
 
 ## 我曾经任职于这些公司：
@@ -90,6 +100,7 @@ Macbook pro, TypeScript, Vue, SCSS
 
 
 ---
+
 
 ## 早年历史项目经验
 [部分参与的项目](/projects)
