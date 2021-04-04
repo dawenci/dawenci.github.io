@@ -11,7 +11,7 @@ email: dawenci@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
   Dawenci的博客.
 
-url: "http://dawenci.me" # the base hostname & protocol for your site
+url: "https://dawenci.me" # the base hostname & protocol for your site
 baseurl: "" # the subpath of your site, e.g. /blog
 
 # Outputting
