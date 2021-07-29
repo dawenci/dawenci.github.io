@@ -21,7 +21,7 @@ layout: default
     <footer>
       <div class="post-tags">
         {% for tag in page.tags %}
-        <a class="tag" href="/tags/#{{ tag | slugify }}">{{ tag }}</a>
+        <a class="tag" href="/tags#{{ tag | slugify }}">{{ tag }}</a>
         {% endfor %}
       </div>
 
