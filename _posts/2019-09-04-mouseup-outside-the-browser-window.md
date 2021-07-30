@@ -5,7 +5,7 @@ categories: JavaScript
 tags: [JavaScript, DOM, Event]
 ---
 
-mouseup 之类的事件，鼠标移出窗口（或 iframe）时，释放点击，不会触发，除非事件绑定在 documentElement | document | window 上面。
+mouseup 之类的事件，鼠标移出窗口（或 iframe）时，释放点击，不会触发，除非事件绑定在 documentElement、document、window 上面。
 
 例如：
 
