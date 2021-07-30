@@ -5,7 +5,6 @@ categories: JavaScript
 tags: [JavaScript]
 ---
 
-
 ## eval 的使用方式
 
 `eval` 可以接受一个字符串，并解析执行，例如：
@@ -18,10 +17,12 @@ eval('{ foo: 123 }') // 123，代码块
 eval('({ foo: 123 })') // { foo: 123 }，对象字面量
 ```
 
-
-### 严格模式
+## 严格模式
 
 通常 `eval` 应当只在严格模式下使用。 
+
+<!-- more -->
+
 非严格模式下，使用 `eval` 声明的变量，会成为当前作用域中的一个本地的变量，可以被周边的代码访问。而严格模式中，默认使用的是全局作用域。
 
 ```js
@@ -59,7 +60,6 @@ var foo = 'global'
 > The result of calling the abstract operation [GetValue](https://262.ecma-international.org/5.1/#sec-8.7.1) with that [Reference](https://262.ecma-international.org/5.1/#sec-8.7) as the argument is the standard built-in function defined in [15.1.2.1](https://262.ecma-international.org/5.1/#sec-15.1.2.1).
 
 
-
 下面这种形式的调用都是直接调用：
 
 ```js
@@ -84,8 +84,6 @@ eval.call(null, 'foo')
 var _eval = eval
 _eval('foo')
 ```
-
-
 
 直接调用、间接调用链接到的作用域不同，其中，直接调用，会使用本地作用域，而间接调用，则使用全局作用域：
 
@@ -118,11 +116,7 @@ var foo = 'global'
 })()
 ```
 
-
-
 最后，`eval` 使用间接调用，性能是远高于直接调用的。
-
-
 
 ## new Function()
 
@@ -149,8 +143,6 @@ var foo = 'global'
   console.log(strict()) // undefined
 })()
 ```
-
-
 
 ## 参考
 
