@@ -28,6 +28,8 @@ Excel 的日期内部存储为自然数，代表从 1900 年 1 月 0 日 开始�
 
 ## Excel 日期 JavaScript 日期互转
 
+<!-- more -->
+
 ```js
 // 每天的毫秒数
 const MILLISECONDS_PER_DAY = 86400000
@@ -54,7 +56,6 @@ function fromJsDate(date) {
 }
 
 ```
-
 
 # 闰年的计算规则
 
