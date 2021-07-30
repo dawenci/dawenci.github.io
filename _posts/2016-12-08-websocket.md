@@ -34,6 +34,8 @@ WebSocket 分为握手和传输两部分。
 
 握手阶段，使用 HTTP 请求。并且在 HTTP 请求的 Headers 中，会携带一些特别的字段。
 
+<!-- more -->
+
 ### 握手请求的 Headers 例子
 
 ```
