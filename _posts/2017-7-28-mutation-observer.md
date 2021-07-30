@@ -23,6 +23,8 @@ MutationObserver(callback)
 1. mutationRecords 改变记录列表
 2. observer 即 MutationObserver 实例
 
+<!-- more -->
+
 ### MutationRecord
 
 MutationRecord 用以描述一个 DOM 变动的详细信息，它拥有如下字段：
