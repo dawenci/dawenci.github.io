@@ -36,6 +36,7 @@ tags: [JavaScript, DOM, Event]
 1. IE9, Safari, Chrome, Opera, Firefox 会从 `window` 开始捕获事件。
 2. IE9，Safari，Chrome，Firefox，Opera 9.5+ 等浏览器，捕获阶段不会在事件目标前停止，会继续传播到事件目标。
 
+<!-- more -->
 
 ## 2. 处于目标阶段
 
