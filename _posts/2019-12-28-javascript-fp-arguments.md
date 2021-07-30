@@ -21,6 +21,8 @@ tags: [JavaScript, FP]
 
 第一种，多一层拦截，限制传入 `parseInt` 的参数。
 
+<!-- more -->
+
 定义一个辅助函数
 
 ```js
