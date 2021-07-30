@@ -18,7 +18,6 @@ eval('{ foo: 123 }') // 123，代码块
 eval('({ foo: 123 })') // { foo: 123 }，对象字面量
 ```
 
-### 
 
 ### 严格模式
 
@@ -155,10 +154,6 @@ var foo = 'global'
 
 ## 参考
 
-[Evaluating JavaScript code via eval() and new Function()](https://2ality.com/2014/01/eval.html)
-
-http://perfectionkills.com/global-eval-what-are-the-options/
-
-https://262.ecma-international.org/5.1/#sec-15.1.2.1
-
-
+[Evaluating JavaScript code via eval() and new Function()](https://2ality.com/2014/01/eval.html)  
+[Global eval. What are the options?](http://perfectionkills.com/global-eval-what-are-the-options/)  
+[ECMAScript® Language Specification](https://262.ecma-international.org/5.1/#sec-15.1.2.1)  
