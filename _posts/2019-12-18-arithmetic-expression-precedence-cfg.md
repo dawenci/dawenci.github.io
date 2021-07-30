@@ -56,6 +56,8 @@ tags: [JavaScript]
 
 ## 实现
 
+<!-- more -->
+
 先看 `Parser` 的实现代码，再解释。
 
 > 重点关注 `parseExpr` 之后的代码，之前部分跟上篇的一致。  
