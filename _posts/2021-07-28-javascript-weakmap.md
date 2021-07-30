@@ -20,6 +20,8 @@ tags: [JavaScript, WeakMap, polyfill]
 4. 一个 key 在多个 WeakMap 中，能引用不同的 value，因此，key 必须能识别不同的 WeakMap，因此，WeakMap 实现中，必须有个唯一标识。
 5. 由于 WeakMap 不能持有 key，因此，也无法实现遍历 key、value 等操作。只能实现 get, set, has, delete 等方法。
 
+
+
 基于这些分析，
 
 我们可以这样来实现：
@@ -61,4 +63,3 @@ class WeakMap {
 }
 
 ```
-
