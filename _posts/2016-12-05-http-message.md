@@ -36,7 +36,6 @@ GET /example/example.jpg HTTP/1.1
 HTTP/1.1 200 OK
 ```
 
-
 ### 首部(headers)
 
 首部内容紧接着起始行之后，每行代表一个首部字段。
@@ -49,6 +48,8 @@ Content-Type: text/html
 ```
 
 最后，**首部以一个空行结束**（即使后面没有 body 部分也不可省略）。
+
+<!-- more -->
 
 ### 主体(body)
 
