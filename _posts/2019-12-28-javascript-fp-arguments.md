@@ -5,6 +5,7 @@ categories: JavaScript
 tags: [JavaScript, FP]
 ---
 
+在开发函数式工具库的过程，引发了对于参数数量的一些思考，本篇博客只是随意发散写写。
 
 ## map 的参数数量
 
