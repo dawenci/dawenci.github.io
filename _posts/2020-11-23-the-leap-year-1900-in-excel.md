@@ -5,6 +5,8 @@ categories: JavaScript
 tags: [Excel, JavaScript, Date]
 ---
 
+在业余开发在线电子表格应用过程，学习了下 Excel 中对于日期的表示方式，发现了一个有意思的问题，那就是 Excel 会将 1900 年当作是闰年。
+本篇博客就这个问题随意延伸聊聊。
 
 ## Excel 日期表示
 
