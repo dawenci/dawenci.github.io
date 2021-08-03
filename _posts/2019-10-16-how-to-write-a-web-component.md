@@ -47,6 +47,8 @@ document.body.appendChild($p)
 
 让我们改造下代码，使用 Shadow DOM 为我们的自定义 Button 加上内部 DOM 结构：
 
+<!-- more -->
+
 ```js
 // 创建一个模板，内容是我们的样式和按钮的内部 DOM 结构，
 // 使用模板是为了实例化的时候可以直接 cloneNode，而不用每次都人工创建这些节点以提高性能和方便维护
