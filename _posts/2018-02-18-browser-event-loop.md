@@ -84,6 +84,8 @@ while (queue.waitForMessage()) {
 
 ## 任务执行
 
+![](../images/2018-02-18-browser-event-loop.assets/1.png)
+
 具体到每一轮循环：
 
 1. 将会从任务队列中取出一个任务，调用执行，形成对应的调用栈，执行到栈空，任务也就执行完毕了。
@@ -123,6 +125,10 @@ function outer(x) {
 
 console.log(outer(2)); // 返回 5
 ```
+
+`outer(2)` 调用的过程栈的变化情况如下:
+
+![](../images/2018-02-18-browser-event-loop.assets/2.png)
 
 当调用 `outer` 时，第一个帧被创建并压入栈中，帧中包含了 `outer` 的参数和局部变量。此时栈的情况如下：
 
