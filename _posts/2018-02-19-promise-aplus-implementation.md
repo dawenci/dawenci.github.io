@@ -837,7 +837,7 @@ promisesAplusTests(adapter, function (err) { /* All done; output is in the conso
 
 ```
 
-写好入口文件后，我们还需要改造下我们实现的 Promise，将其导出成一个 cmd 包。
+写好入口文件后，我们还需要改造下我们实现的 Promise，将其导出成一个 CommonJS 模块。
 
 只需要简单地在末尾加上导出语句即可：
 
