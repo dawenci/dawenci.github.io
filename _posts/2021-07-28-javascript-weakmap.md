@@ -15,9 +15,9 @@ tags: [JavaScript, WeakMap, polyfill]
 分析：
 
 1. 不能阻止 key 被 gc，因此，WeakMap 中不能直接持有 key。
-2. 通过 key 能找到 value，因为上条，不能通过第三方维护这种对应关系，于是只能在 key 中用某种方式去引用 value。
-3. 基于上条，key 必须为对象。
-4. 同一个对象能作为多个 WeakMap 的 key，分别引用不同的 value，这意味着 key 必须能识别不同的 WeakMap，因此，WeakMap 实现中，必须有个唯一标识，key 通过该标志引用不同的 value。
+2. 通过 key 能找到 value，因为上条，不能由 WeakMap 或第三方对象去维护这种对应关系，于是只能在 key 中用某种方式去引用 value 来维持对应关系。
+3. 基于上条，得出 key 必须为对象的结论。
+4. 同一个对象能作为多个 WeakMap 的 key 分别引用不同的 value，这意味着 key 必须能识别不同的 WeakMap，因此，WeakMap 实现中，必须有个唯一标识，key 使用不同 WeakMap 的唯一标志作为属性名去引用不同的 value。
 5. 由于 WeakMap 不负责存储 key、value，所以 WeakMap 无法实现遍历 key、value 等操作。只能实现 get, set, has, delete 等方法去操作 key 中存储的数据。
 
 <!-- more -->
