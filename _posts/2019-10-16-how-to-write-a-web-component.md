@@ -38,6 +38,7 @@ document.body.appendChild($p)
 
 ![](../images/2019-10-16-how-to-write-a-web-component.assets/1.png)
 
+---
 
 ## Shadow DOM
 
@@ -114,6 +115,7 @@ class MyButton extends HTMLElement {
 
 最后，关于 `attachShadow` 的选项，也有些有用的配置，感兴趣的可以去看文档学习使用，这里只简单提下 `mode`，我们用了 `'open'` 这个值，这代表我们可以通过 JavaScript 来访问 Shadow DOM，还有个值为 `'closed'`，如果用了这个值，我们就要再组件内部自己保存对 shadow root 的引用，以便访问。
 
+---
 
 ## 生命周期钩子
 
@@ -183,6 +185,7 @@ frames[0].document.body.appendChild($myButton)
 
 有了生命周期钩子，就可以做很多事情了，但是我们的例子比较简单，暂时先不深入使用。
 
+---
 
 ## attribute 和 property
 
@@ -210,6 +213,7 @@ frames[0].document.body.appendChild($myButton)
 
 接下来就为我们的组件逐步新增 attribute 以及 property。
 
+---
 
 ## 使用 attribute
 
@@ -299,6 +303,7 @@ class MyButton extends HTMLElement {
 
 之后按钮被禁用，再次怎么点击也不会有输出了。
 
+---
 
 ## 使用 property
 
@@ -405,6 +410,97 @@ class MyButton extends HTMLElement {
   }
 </script>
 ```
+
+至此，我们的 web component 就拥有了与外部通讯的能力，可以通过 attribute 和 property 接受外部输入。
+
+但如果想往外传递数据呢？这时候就需要借助事件机制了。
+
+---
+
+## 事件
+
+Web components 跟普通 html 元素一样，支持各种各样的 DOM 事件。
+
+除此之外，我们也可以根据需要使用 `CustomEvent` 构造各种自定义事件，并且可以通过参数中的 `detail` 属性携带各类事件数据：
+
+```js
+const event = new CustomEvent('my-event', {
+  // 用来传递数据
+  detail: { payload: 'anything' }
+})
+```
+
+构造好数据后，可以使用 `EventTarget.dispatchEvent` 进行派发：
+
+```js
+// 跟普通 DOM 事件一样，监听
+document.addEventListener('my-event', event => {
+  console.log('my-event, payload:', event.detail.payload)
+})
+
+// 派发事件
+document.dispatchEvent(event) // 打印：'my-event, payload: anything'
+```
+
+以上例子简单地演示了自定义事件的用法。
+
+但是在 web component 中，不论是原生 DOM 事件，还是自己派发的自定义事件，都没这么简单，需要考虑事件是否能穿透 Shadow DOM 边界的问题。
+
+派发 CustomEvent 时，可以通过 `bubbles` 和 `composed` 这两个布尔选项来控制冒泡的行为：
+
+```js
+const event = new CustomEvent('my-event', {
+  payload: 'anything',
+  // 表示事件会冒泡
+  bubbles: true,
+  // 表示冒泡可以穿过 Shadow DOM 的边界，一直传递到组件外部
+  composed: true,
+})
+```
+
+属性 `bubbles` 比较好理解，就是开关是否冒泡，而 `composed` 的具体效果又是怎么样的呢，用一个例子看看：
+
+```html
+<event-test></event-test>
+<script>
+  // 监听自定义事件
+  document.addEventListener('test-event', event => console.log(event.detail))
+
+  customElements.define('event-test', class EventTest extends HTMLElement {
+    constructor() {
+      super()
+      this.attachShadow({ mode: 'open' })
+      const $inner = document.createElement('div')
+      $inner.innerHTML = 'Event Target'
+      this.shadowRoot.appendChild($inner)
+
+      // 派发事件
+      $inner.dispatchEvent(new CustomEvent('test-event', {
+        bubbles: true,
+        composed: false,
+        detail: 'composed false',
+      }))
+      $inner.dispatchEvent(new CustomEvent('test-event', {
+        bubbles: true,
+        composed: true,
+        detail: 'composed true',
+      }))
+    }
+  })
+</script>
+```
+
+上面代码中，我们派发了两个自定义事件，但是控制台只会打印出一个 'composed true'。这意味着，只有设置了 `composed` 为 `true` 的事件，穿过了 Shadow DOM，冒泡到 `document` 上了，而设置为 false 的，就只能在 Shadow DOM 内部传播了。
+
+对于 UI 事件的 `bubbles` 和 `composed` 情况，可以参考[文档](https://www.w3.org/TR/uievents/)。
+
+如下这些常见的事件，`composed` 为 `true`：
+`blur`，`focus`，`focusin`，`focusout`，`click`，`dblclick`，`mousedown`，`mouseup`， `mousemove`，`mouseout`，`mouseover`，`wheel`，`beforeinput`，`input`，`keydown`，`keyup`。
+
+而这些常见的，则为 `false`：
+`mouseenter`，`mouseleave`，`load`，`unload`，`abort`，`error`，`select`，`slotchange`。
+
+还有一个需要注意的点，web component 的 Shadow DOM 内部节点触发的事件，对于外部脚本来说，事件目标将会被重定向为 host 元素，因为外部程序不需要也不应该了解组件内部的情况，以免破坏封装性。不过 slotted 的元素触发的事件则不会重定向 target，因为它们本来就存在于外部。
 
 至此，写一个 Web Component 的主要知识点都简单提到了，对于简单的组件，基于这些知识背景，已经可以尝试写一写了。
 
