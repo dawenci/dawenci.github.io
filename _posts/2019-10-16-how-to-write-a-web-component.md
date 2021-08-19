@@ -183,7 +183,7 @@ frames[0].document.body.appendChild($myButton)
 
 ![](../images/2019-10-16-how-to-write-a-web-component.assets/3.png)
 
-有了生命周期钩子，就可以做很多事情了，但是我们的例子比较简单，暂时先不深入使用。
+有了生命周期钩子，就可以做很多事情了，但是我们的例子比较简单，暂时先不深入。
 
 ---
 
@@ -262,7 +262,7 @@ class MyButton extends HTMLElement {
   // 注意此处为关键代码
   attributeChangedCallback(attrName, oldVal, newVal) {
     if (attrName === 'disabled') {
-      console.log(newVal === null ? '按钮禁用了' : '按钮启用了')
+      console.log(newVal === null ? '按钮启用了' : '按钮禁用了')
     }
   }
 
@@ -295,7 +295,7 @@ class MyButton extends HTMLElement {
 
 ```
 按钮被点击了
-按钮启用了
+按钮禁用了
 ```
 且效果切换成禁用状态：
 
@@ -345,7 +345,7 @@ class MyButton extends HTMLElement {
 
   attributeChangedCallback(attrName, oldVal, newVal) {
     if (attrName === 'disabled') {
-      console.log(newVal === null ? '按钮禁用了' : '按钮启用了')
+      console.log(newVal === null ? '按钮启用了' : '按钮禁用了')
     }
   }
   connectedCallback() {/* 略 */}
