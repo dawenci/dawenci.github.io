@@ -41,6 +41,8 @@ const result = list.filter(item => item.type === '咖啡').map(item => item.amou
 
 例子代码中起码存在着以下问题：
 
+<!-- more -->
+
 ### 没必要的中间临时数组生成
 
 list 执行每一步操作的结果，都会生成一个中间的新数组，例如 filter 的结果，会生成一个 list 的子集数组，  
