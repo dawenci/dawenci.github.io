@@ -427,4 +427,8 @@ console.log(results)
 
 ---
 
+本文相关代码，可在 [github](https://github.com/dawenci/sequence) 查看更完整的版本。
+
+---
+
 全文完
