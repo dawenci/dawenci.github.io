@@ -21,7 +21,7 @@ tags: [JavaScript]
 const html = '<div id="outer"><div id="inner">内容</div></div>'
 ```
 
-为了可读性和避免写错，就有强烈的写成带缩紧的多行文本的需求。
+为了可读性和避免写错，就有强烈的写成带缩进的多行文本的需求。
 现阶段，JavaScript 的多行文本，大家马上能想到的就是用 ES6 的字符串模板字面量来创建。
 
 ```js
@@ -105,5 +105,7 @@ var html = document.getElementById('template').textContent
 
 讲了这么多种书写多行字符串的方法，有什么用处呢？  
 其实什么用都没，大部分场景，无脑使用 ES6 的模板字面量即可。
+
+---
 
 全文完
