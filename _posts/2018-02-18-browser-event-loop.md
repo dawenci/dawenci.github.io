@@ -41,7 +41,7 @@ setTimeout 执行
 
 为了理解上面代码执行背后发生了什么，就必须从浏览器的[事件循环](https://html.spec.whatwg.org/multipage/webappapis.html#event-loops)开始说起。
 
-首先，大家应该无数次听说过，JavaScript 本身是单线程的，所以同一时间内只能同步处理处理一件事情，异步本身并不是 JavaScript 的一部分。这个限制从好的方面来说，可以让我们不用考虑并发带来的复杂性，从而大大简化编写程序的难度。
+首先，大家应该无数次听说过，JavaScript 本身是单线程的，所以同一时间内只能同步处理处理一件事情，异步本身并不是 JavaScript 的一部分。这个限制从好的方面来说，简单的模型可以让我们不用考虑过多的复杂性，大大简化编写程序的难度。
 
 但换个角度，假如浏览器中的所有逻辑代码都只能连续、顺序排队同步执行下去，那么代码中的许多费时操作将会处处导致线程被阻塞住，用户的操作将很难得到及时的响应。想象一下，用户的鼠标点击，滚轮滚动，文字录入，都要等几秒后才能有响应，那是怎么样的一种景象。很显然，Web 应用将变得完全不可用。
 
@@ -183,10 +183,11 @@ console.log(outer(2)); // 返回 5
   此任务源用于响应网络活动而触发的功能，如 XHR 回调。
 4. 历史遍历任务源（The history traversal task source）
   此任务源用于对 history.back（）和类似 API 的调用排队
-5. 总结来说，常见的 task 任务有：
-6. IndexedDB 数据库操作等 I/O
-7. setTimeout / setInterval
-8. history.back
+
+总结来说，常见的 task 任务有：
+1. IndexedDB 数据库操作等 I/O
+2. setTimeout / setInterval
+3. history.back
 
 对于任务的队列划分情况，大致如下，
 
@@ -231,7 +232,7 @@ console.log(outer(2)); // 返回 5
 
 1. 首先整个脚本代码，作为一个任务被执行。
 2. 执行 `console.log('脚本执行开始')`, 结果在屏幕打印 '脚本执行开始'
-3. 执行 `setTimeout`, 结果在任务队列中，添加一个新任务。
+3. 执行 `setTimeout`, 设置定时器（定时器时间到了之后，会在任务队列中，添加一个新任务用于执行定时器回调）。
 4. 执行 new Promise 的回调，在屏幕打印 'promise'。
 5. Promise resolve，第一个 then 回调作为一个任务添加进微任务队列。
 6. 执行 `console.log('脚本执行结束')`，在屏幕打印 '脚本执行结束'。
@@ -239,7 +240,14 @@ console.log(outer(2)); // 返回 5
 8. 开始执行微任务，当前微任务队列里有一个任务，拿出执行，执行结果为打印 'promise then 1 执行'，之后相当于 resolve 为 undefined，添加第二个 then 的回调到微任务队列。
 9. 由于微任务队列里新添加了一个任务，所以继续拿出执行，打印 'promise then 2 执行'。
 10. 微任务队列已经清空，此时可能进行渲染流程。
-11. 第二轮事件循环开始，任务队列里面存在一个 setTimeout 的回调，取出执行，打印 'setTimeout 执行'。
-12. 任务队列空，全部代码执行结束，事件循环等待下个任务。
+11. 继续后续的事件循环。
+12. 定时器产生的新任务被新一轮的事件循环取出执行，打印 'setTimeout 执行'。
+13. 没有任务了，事件循环继续等待下个任务。
+
+
+## 参考
+[Event loops](https://html.spec.whatwg.org/multipage/webappapis.html#event-loop)
+
+---
 
 全文完
