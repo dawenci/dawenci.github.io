@@ -67,10 +67,27 @@ setTimeout 执行
 1. 任务队列 Task queue
 2. 微任务队列 Microtask queue
 
-> 规范中并没有使用“微任务（Microtask）”这个术语，为了方便区分，后续将继续这么称呼。
-> 这里明确地用到“队列”这个术语，只是为了方便理解，具体的实现是否为队列并不重要。
-> 队列可以有多个，用来归类不同的任务源（后面会说到）的任务，以实现各类任务的调度优先级，以及确保同类任务的调用顺序不乱。
-> 一个浏览器进程中，不同的线程（如 Window，和 Worker），有自己的 EventLoop，不互相干扰。
+> 仅为了方便理解事件循环的机制，我们姑且理解为存在这两类任务队列（不代表实现）。  
+> 规范中并没有使用“微任务（Microtask）”这个术语，为了方便区分，后续将继续这么称呼。  
+> 这里明确地用到“队列”这个术语，也只是为了方便理解，具体的实现是否为队列并不重要。  
+> 队列可以有多个，用来归类不同的任务源（后面会说到）的任务，以实现各类任务的调度优先级，以及确保同类任务的调用顺序不乱。  
+> 一个浏览器进程中，不同的线程（如 Window，和 Worker），有自己的 EventLoop，不互相干扰。  
+
+常见的 task 任务有：事件回调、XHR 回调、IndexedDB 数据库操作等 I/O、setTimeout / setInterval 以及 history.back 等等。
+
+对于任务的队列划分情况，大致如下，
+
+任务队列：
+- 全部 js 代码，同步代码，比如一个 script 标签里的所有代码
+- setTimeout, setInterval, setImmediate 等计时器的回调函数
+- I/O 操作结果回调函数
+- UI rendering
+
+微任务队列：
+- process.nextTick 回调函数
+- Promises，如果 promise 状态是 resolve、reject，那就放入当前事件循环的 microtask quene 中，如果是 pending，则放入未来的 microtask quene 中。
+- Object.observe（注：该特性已经在标准中废除）
+- MutationObserver
 
 各种任务产生出来之后，就会被放入上述两类的各种队列中，然后等待事件循环调度执行。
 
@@ -151,20 +168,20 @@ console.log(outer(2)); // 返回 5
 
 不同的任务中，封装了负责各种工作的算法，比如说：
 
-- 事件 (events)
+- 事件 (events)  
 在特定的某个 EventTarget 上派发 Event 对象，例如鼠标的 click 事件，通常由专门的 task 来完成。
 > 注，并非所有事件都是使用 task queue 来派发。
 
-- 解析（Parsing）
+- 解析（Parsing）  
 例如解析 HTML。
 
-- 回调（Callbacks）
+- 回调（Callbacks）  
 回调通常也使用专门的 task 来完成。
 
-- 使用资源（Using a resource）
+- 使用资源（Using a resource）  
 当算法获取资源时（ajax），如果获取是以非阻塞方式发生的，则一旦部分或全部资源可用，则对资源的处理将由任务来执行（回调）。
 
-- 响应 DOM 操作（Reacting to DOM manipulation）
+- 响应 DOM 操作（Reacting to DOM manipulation）  
 一些元素的 task 会响应 DOM 操作而触发，例如，当该元素被插入到 `document` 时。
 
 ### 任务源
@@ -173,35 +190,16 @@ console.log(outer(2)); // 返回 5
 在每个事件循环中，每个 `task source` 都必须与特定的 `task queue` 关联。
 这个 source 有什么用呢？主要可以用于区分不同的任务，将某类 source 的归类到一种任务队列中，而另外一些则归入其他任务队列中。这么做，方便实现不同的事件拥有不同的调度优先级。但这些都是旁支末节的东西，不再深究。
 
-大致存在以下这些任务源：
-
-1. DOM 操作任务源
-  该 task source 用于响应 DOM 操作的功能，例如在将元素插入文档中时以非阻塞方式所发生的事情。
-2. 用户交互任务源
-  此任务源用于响应用户交互的功能，例如键盘或鼠标输入的事件回调。
-3. 网络任务源
-  此任务源用于响应网络活动而触发的功能，如 XHR 回调。
-4. 历史遍历任务源（The history traversal task source）
-  此任务源用于对 history.back（）和类似 API 的调用排队
-
-总结来说，常见的 task 任务有：
-1. IndexedDB 数据库操作等 I/O
-2. setTimeout / setInterval
-3. history.back
-
-对于任务的队列划分情况，大致如下，
-
-任务队列：
-- 全部 js 代码，同步代码，比如一个 script 标签里的所有代码
-- setTimeout, setInterval, setImmediate 等计时器的回调函数
-- I/O 操作结果回调函数
-- UI rendering
-
-微任务队列：
-- process.nextTick 回调函数
-- Promises，如果 promise 状态是 resolve、reject，那就放入当前事件循环的 microtask quene 中，如果是 pending，则放入未来的 microtask quene 中。
-- Object.observe（注：该特性已经在标准中废除）
-- MutationObserver
+> 大致存在以下这些任务源：
+>
+> 1. DOM 操作任务源
+>   该 task source 用于响应 DOM 操作的功能，例如在将元素插入文档中时所发生事情（以非阻塞方式）。
+> 2. 用户交互任务源
+>   此任务源用于响应用户交互的功能，例如键盘或鼠标输入的事件回调。
+> 3. 网络任务源
+>   此任务源用于响应网络活动而触发的功能，如 XHR 回调。
+> 4. 历史遍历任务源（The history traversal task source）
+>   此任务源用于对 history.back（）和类似 API 的调用进行排队。
 
 
 ### 任务关联的文档
@@ -224,7 +222,7 @@ console.log(outer(2)); // 返回 5
 
 不管如何，一旦进入渲染流程，浏览器会先处理输入事件，例如 resize、scroll，然后调用 raf 的回调（这些回调的调用栈空后，又会触发微任务检查点算法，清理 Microtask queue），再后面就是计算 Style，Layout，Paint，然后合成，然后 Commit 帧，在完成一帧之后如果还有空闲，那还会处理 requestIdleCallback 的回调。
 
-渲染只是事件循环过程的一个小环节，因此此处也不再深究。
+渲染只是事件循环过程插入的一个小环节，因此此处也不再深究。
 
 ## 开头问题解释
 
